@@ -16,7 +16,7 @@ public class SecurityConfig {
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
                 .authorizeHttpRequests(auth -> auth
-                        // Recursos públicos de la aplicación.
+                        // Recursos públicos de la aplicación web.
                         .requestMatchers(
                                 "/",
                                 "/login",
@@ -26,10 +26,16 @@ public class SecurityConfig {
                                 "/images/**",
                                 "webjars/**"
                         ).permitAll()
+                        // Endpoints públicos de la API REST
+                        .requestMatchers("/api/clientes/**").permitAll()
+                        .requestMatchers("/api/vehiculos/**").permitAll()
+                        .requestMatchers("/api/alquileres/**").permitAll()
 
+                        // Rutas protegidas de la aplicación web
                         .requestMatchers("/admin/**").hasRole("ADMIN")
                         .requestMatchers("/user/**").hasAnyRole("USER", "ADMIN")
 
+                        // Cualquier otra ruta requiere autenticación
                         .anyRequest().authenticated()
                 )
                 // Configuración del formulario de login.
