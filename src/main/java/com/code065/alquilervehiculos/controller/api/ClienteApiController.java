@@ -1,7 +1,6 @@
 package com.code065.alquilervehiculos.controller.api;
 
 import com.code065.alquilervehiculos.dto.ClienteResponseDTO;
-import com.code065.alquilervehiculos.model.Cliente;
 import com.code065.alquilervehiculos.service.ClienteService;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
