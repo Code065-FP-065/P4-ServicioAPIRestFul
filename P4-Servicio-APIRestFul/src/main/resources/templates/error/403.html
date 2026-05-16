@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments/head :: head('Acceso denegado')}"></head>
+<body>
+
+<header th:replace="~{fragments/header :: header}"></header>
+<div th:replace="~{fragments/nav :: nav}"></div>
+
+<main class="page-container">
+    <section class="page-header">
+        <h1 class="page-title">Acceso denegado</h1>
+        <p class="page-subtitle">
+            No tienes permisos para acceder a esta sección de la aplicación.
+        </p>
+    </section>
+
+    <section class="card form-card">
+        <div class="card__header">
+            <h2 class="card__title">Error 403</h2>
+        </div>
+
+        <div class="card__body">
+            <div class="alert alert--error">
+                Tu usuario está autenticado, pero no dispone del rol necesario para consultar esta página.
+            </div>
+
+            <div class="form-actions">
+                <a th:href="@{/}" class="btn btn--outline">Volver al inicio</a>
+            </div>
+        </div>
+    </section>
+</main>
+
+<footer th:replace="~{fragments/footer :: footer}"></footer>
+
+</body>
+</html>

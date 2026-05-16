@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="es"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head th:replace="~{fragments/head :: head('Dashboard')}"></head>
+<body>
+
+<header th:replace="~{fragments/header :: header}"></header>
+<div th:replace="~{fragments/nav :: nav}"></div>
+
+<main class="page-container">
+    <section class="page-header">
+        <h1 class="page-title">Dashboard</h1>
+        <p class="page-subtitle">Resumen general del sistema</p>
+    </section>
+
+    <section class="stats-grid">
+        <article class="stat-card">
+            <p class="stat-card__label">Total clientes</p>
+            <h2 class="stat-card__value" th:text="${totalClientes}">0</h2>
+        </article>
+
+        <article class="stat-card">
+            <p class="stat-card__label">Total vehículos</p>
+            <h2 class="stat-card__value" th:text="${totalVehiculos}">0</h2>
+        </article>
+
+        <article class="stat-card">
+            <p class="stat-card__label">Total alquileres</p>
+            <h2 class="stat-card__value" th:text="${totalAlquileres}">0</h2>
+        </article>
+    </section>
+
+    <section class="dashboard-grid">
+        <div class="card">
+            <div class="card__header">
+                <h3 class="card__title">Accesos rápidos</h3>
+            </div>
+
+            <div class="card__body quick-actions__list">
+                <a sec:authorize="hasRole('ADMIN')"
+                   th:href="@{/admin/clientes/nuevo}"
+                   class="quick-action-btn">
+                    Crear cliente
+                </a>
+
+                <a sec:authorize="hasRole('ADMIN')"
+                   th:href="@{/admin/vehiculos/nuevo}"
+                   class="quick-action-btn">
+                    Crear vehículo
+                </a>
+
+                <a sec:authorize="hasRole('ADMIN')"
+                   th:href="@{/admin/alquileres/nuevo}"
+                   class="quick-action-btn">
+                    Crear alquiler
+                </a>
+
+                <a sec:authorize="hasRole('USER')"
+                   th:href="@{/user/alquileres/nuevo}"
+                   class="quick-action-btn">
+                    Crear alquiler
+                </a>
+
+                <p sec:authorize="isAnonymous()" class="page-subtitle">
+                    Inicia sesión para acceder a las opciones de gestión.
+                </p>
+            </div>
+        </div>
+
+        <aside class="card quick-actions">
+            <div class="card__header">
+                <h3 class="card__title">Navegación</h3>
+            </div>
+
+            <div class="card__body quick-actions__list">
+                <a sec:authorize="hasRole('ADMIN')"
+                   th:href="@{/admin/clientes}"
+                   class="quick-action-btn">
+                    Ir a clientes
+                </a>
+
+                <a sec:authorize="hasRole('ADMIN')"
+                   th:href="@{/admin/vehiculos}"
+                   class="quick-action-btn">
+                    Ir a vehículos
+                </a>
+
+                <a sec:authorize="hasRole('ADMIN')"
+                   th:href="@{/admin/alquileres}"
+                   class="quick-action-btn">
+                    Ir a alquileres
+                </a>
+
+                <a sec:authorize="hasRole('USER')"
+                   th:href="@{/user/alquileres}"
+                   th:classappend="${paginaActiva == 'alquileres'} ? ' main-nav__link--active' : ''"
+                   class="quick-action-btn">
+                    Ir a alquileres
+                </a>
+
+                <a sec:authorize="hasRole('ADMIN')"
+                   th:href="@{/admin/usuarios}"
+                   class="quick-action-btn">
+                    Ir a usuarios
+                </a>
+
+                <a sec:authorize="isAnonymous()"
+                   th:href="@{/login}"
+                   class="quick-action-btn">
+                    Iniciar sesión
+                </a>
+            </div>
+        </aside>
+    </section>
+</main>
+
+<footer th:replace="~{fragments/footer :: footer}"></footer>
+
+</body>
+</html>

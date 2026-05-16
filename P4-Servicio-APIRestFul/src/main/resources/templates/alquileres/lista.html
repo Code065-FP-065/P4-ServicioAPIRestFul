@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="es"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head th:replace="~{fragments/head :: head('Alquileres')}"></head>
+<body>
+
+<div th:replace="~{fragments/header :: header}"></div>
+<div th:replace="~{fragments/nav :: nav}"></div>
+
+<main class="page-container">
+    <section class="page-header">
+        <h1 class="page-title">Alquileres</h1>
+        <p class="page-subtitle">Gestión de alquileres de vehículos</p>
+    </section>
+
+    <div th:replace="~{fragments/messages :: messages}"></div>
+
+    <section class="toolbar">
+        <a th:href="@{${rutaNuevoAlquiler}}" class="btn btn--primary">Nuevo alquiler</a>
+        <!-- PARA IMPLEMENTAR MÁS ADELANTE
+        <div class="toolbar__search">
+            <input type="text" placeholder="Buscar por cliente o vehículo">
+        </div>
+
+        <div class="toolbar__filter">
+            <select>
+                <option>Todos</option>
+            </select>
+        </div>
+        -->
+    </section>
+
+    <section class="card">
+        <div class="card__body card__body--no-padding">
+            <table class="table">
+                <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Cliente</th>
+                    <th>Vehículo</th>
+                    <th>Fecha inicio</th>
+                    <th>Fecha fin</th>
+                    <th>Días</th>
+                    <th>Precio/día</th>
+                    <th>Total</th>
+                    <th>Estado</th>
+                    <th>Fecha alta</th>
+                    <th>Creado por</th>
+                    <th>Modificado por</th>
+                    <th>Acciones</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr th:each="alquiler : ${alquileres}">
+                    <td th:text="${alquiler.idAlquiler}">1</td>
+                    <td th:text="${alquiler.cliente.nombre + ' ' + alquiler.cliente.apellidos}">María García</td>
+                    <td th:text="${alquiler.vehiculo.matricula + ' - ' + alquiler.vehiculo.modelo}">1234ABC - Corolla</td>
+                    <td th:text="${alquiler.fechaInicio}">2026-03-27</td>
+                    <td th:text="${alquiler.fechaFin}">2026-03-30</td>
+                    <td th:text="${alquiler.dias}">3</td>
+                    <td th:text="${alquiler.precioDiaAplicado}">45.00</td>
+                    <td th:text="${alquiler.total}">135.00</td>
+                    <td th:text="${alquiler.estado}">PENDIENTE</td>
+                    <td th:text="${#temporals.format(alquiler.createdAt, 'yyyy-MM-dd')}">2026-03-27</td>
+                    <td th:text="${alquiler.creadoPor != null ? alquiler.creadoPor.username : '-'}">admin</td>
+                    <td th:text="${alquiler.modificadoPor != null ? alquiler.modificadoPor.username : '-'}">admin</td>
+                    <td>
+                        <div class="table-actions">
+                            <!-- Para añadir vista detalles
+                            <a href="#" class="icon-action">Ver</a>
+                            -->
+                            <a sec:authorize="hasRole('ADMIN')"
+                               th:href="@{/admin/alquileres/editar/{id}(id=${alquiler.idAlquiler})}"
+                               class="icon-action">
+                                Editar
+                            </a>
+
+                            <form sec:authorize="hasRole('ADMIN')"
+                                  th:action="@{/admin/alquileres/eliminar/{id}(id=${alquiler.idAlquiler})}"
+                                  method="post"
+                                  class="inline-form"
+                                  onsubmit="return confirm('¿Seguro que deseas eliminar este alquiler?');">
+                                <button type="submit" class="icon-action icon-action--danger">
+                                    Eliminar
+                                </button>
+                            </form>
+
+                            <span sec:authorize="hasRole('USER')" class="page-subtitle">
+                                 Sin acciones
+                            </span>
+                        </div>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+    </section>
+</main>
+
+<div th:replace="~{fragments/footer :: footer}"></div>
+
+</body>
+</html>

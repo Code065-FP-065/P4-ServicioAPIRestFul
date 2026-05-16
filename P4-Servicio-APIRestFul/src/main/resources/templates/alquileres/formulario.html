@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments/head :: head('Nuevo alquiler')}"></head>
+<body>
+
+<div th:replace="~{fragments/header :: header}"></div>
+<div th:replace="~{fragments/nav :: nav}"></div>
+
+<main class="page-container">
+    <section class="page-header">
+        <h1 class="page-title"
+            th:text="${alquiler.idAlquiler != null} ? 'Editar alquiler' : 'Nuevo alquiler'">
+            Formulario alquiler
+        </h1>
+        <p class="page-subtitle">Completa los datos del alquiler</p>
+    </section>
+
+    <div th:replace="~{fragments/messages :: messages}"></div>
+
+    <section class="card form-card">
+        <div class="card__body">
+            <form th:action="@{${formAction}}" th:object="${alquiler}" method="post" class="form-grid">
+
+                <input type="hidden" th:field="*{idAlquiler}">
+
+                <div class="form-group">
+                    <label for="cliente">Cliente</label>
+                    <select id="cliente" th:field="*{cliente.idCliente}" required>
+                        <option value="">Selecciona un cliente</option>
+                        <option th:each="cliente : ${clientes}"
+                                th:value="${cliente.idCliente}"
+                                th:text="${cliente.nombre + ' ' + cliente.apellidos}">
+                        </option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label for="vehiculo">Vehículo</label>
+                    <select id="vehiculo" th:field="*{vehiculo.idVehiculo}" required>
+                        <option value="">Selecciona un vehículo</option>
+                        <option th:each="vehiculo : ${vehiculos}"
+                                th:value="${vehiculo.idVehiculo}"
+                                th:text="${vehiculo.matricula + ' - ' + vehiculo.marca + ' ' + vehiculo.modelo}">
+                        </option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label for="fechaInicio">Fecha de inicio</label>
+                    <input id="fechaInicio" type="date" th:field="*{fechaInicio}" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="fechaFin">Fecha de fin</label>
+                    <input id="fechaFin" type="date" th:field="*{fechaFin}" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="estado">Estado</label>
+                    <select id="estado" th:field="*{estado}" required>
+                        <option value="">Selecciona un estado</option>
+                        <option th:each="estado : ${estadosAlquiler}"
+                                th:value="${estado}"
+                                th:text="${#strings.replace(estado, '_', ' ')}">
+                        </option>
+                    </select>
+                </div>
+
+                <div class="form-actions">
+                    <a th:href="@{${cancelUrl}}" class="btn btn--outline">Cancelar</a>
+                    <button type="submit" class="btn btn--primary"
+                            th:text="${alquiler.idAlquiler != null} ? 'Guardar cambios' : 'Guardar alquiler'">
+                        Guardar alquiler
+                    </button>
+                </div>
+
+            </form>
+        </div>
+    </section>
+</main>
+
+<div th:replace="~{fragments/footer :: footer}"></div>
+
+</body>
+</html>

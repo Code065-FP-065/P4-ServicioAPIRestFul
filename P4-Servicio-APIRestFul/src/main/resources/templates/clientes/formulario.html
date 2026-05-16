@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments/head :: head('Nuevo cliente')}"></head>
+<body>
+
+<div th:replace="~{fragments/header :: header}"></div>
+<div th:replace="~{fragments/nav :: nav}"></div>
+
+<main class="page-container">
+    <section class="page-header">
+        <h1 class="page-title"
+            th:text="${cliente.idCliente != null} ? 'Editar cliente' : 'Nuevo cliente'">
+            Formulario cliente
+        </h1>
+        <p class="page-subtitle">Completa los datos del cliente</p>
+    </section>
+
+    <section class="card form-card">
+        <div class="card__body">
+            <form th:action="@{/admin/clientes/guardar}" th:object="${cliente}" method="post" class="form-grid">
+
+                <input type="hidden" th:field="*{idCliente}">
+
+                <div class="form-group">
+                    <label for="nombre">Nombre</label>
+                    <input id="nombre" type="text" th:field="*{nombre}" placeholder="Introduce el nombre" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="apellidos">Apellidos</label>
+                    <input id="apellidos" type="text" th:field="*{apellidos}" placeholder="Introduce los apellidos" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="dni">DNI</label>
+                    <input id="dni" type="text" th:field="*{dni}" placeholder="Introduce el DNI" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="telefono">Teléfono</label>
+                    <input id="telefono" type="text" th:field="*{telefono}" placeholder="Introduce el teléfono">
+                </div>
+
+                <div class="form-actions">
+                    <a th:href="@{/admin/clientes}" class="btn btn--outline">Cancelar</a>
+                    <button type="submit" class="btn btn--primary"
+                            th:text="${cliente.idCliente != null} ? 'Guardar cambios' : 'Guardar cliente'">
+                        Guardar
+                    </button>
+                </div>
+
+            </form>
+        </div>
+    </section>
+</main>
+
+<div th:replace="~{fragments/footer :: footer}"></div>
+
+</body>
+</html>

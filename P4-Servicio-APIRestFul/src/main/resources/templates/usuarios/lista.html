@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="es"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head th:replace="~{fragments/head :: head('Usuarios')}"></head>
+<body>
+
+<header th:replace="~{fragments/header :: header}"></header>
+<div th:replace="~{fragments/nav :: nav}"></div>
+
+<main class="page-container">
+    <section class="page-header">
+        <h1 class="page-title">Usuarios</h1>
+        <p class="page-subtitle">Gestión básica de usuarios registrados</p>
+    </section>
+
+    <div th:replace="~{fragments/messages :: messages}"></div>
+
+    <section class="card">
+        <div class="card__body card__body--no-padding">
+            <table class="table">
+                <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Usuario</th>
+                    <th>Email</th>
+                    <th>Rol</th>
+                    <th>Estado</th>
+                    <th>Fecha alta</th>
+                    <th>Acciones</th>
+                </tr>
+                </thead>
+
+                <tbody>
+                <tr th:each="usuario : ${usuarios}">
+                    <td th:text="${usuario.idUsuario}">1</td>
+                    <td th:text="${usuario.username}">admin</td>
+                    <td th:text="${usuario.email}">admin@email.com</td>
+                    <td th:text="${usuario.rol.nombre}">ADMIN</td>
+                    <td th:text="${usuario.enabled ? 'Activo' : 'Desactivado'}">Activo</td>
+                    <td th:text="${#temporals.format(usuario.createdAt, 'yyyy-MM-dd')}">2026-04-27</td>
+                    <td>
+                        <div class="table-actions">
+
+                            <form th:action="@{/admin/usuarios/cambiar-rol/{id}(id=${usuario.idUsuario})}"
+                                  method="post"
+                                  class="inline-form">
+                                <select name="idRol">
+                                    <option th:each="rol : ${roles}"
+                                            th:value="${rol.idRol}"
+                                            th:text="${rol.nombre}"
+                                            th:selected="${usuario.rol.idRol == rol.idRol}">
+                                    </option>
+                                </select>
+
+                                <button type="submit" class="icon-action">
+                                    Cambiar rol
+                                </button>
+                            </form>
+
+                            <form th:if="${!usuario.enabled}"
+                                  th:action="@{/admin/usuarios/activar/{id}(id=${usuario.idUsuario})}"
+                                  method="post"
+                                  class="inline-form">
+                                <button type="submit" class="icon-action">
+                                    Activar
+                                </button>
+                            </form>
+
+                            <form th:if="${usuario.enabled}"
+                                  th:action="@{/admin/usuarios/desactivar/{id}(id=${usuario.idUsuario})}"
+                                  method="post"
+                                  class="inline-form"
+                                  onsubmit="return confirm('¿Seguro que deseas desactivar este usuario?');">
+                                <button type="submit" class="icon-action icon-action--danger">
+                                    Desactivar
+                                </button>
+                            </form>
+
+                        </div>
+                    </td>
+                </tr>
+
+                <tr th:if="${#lists.isEmpty(usuarios)}">
+                    <td colspan="7">No hay usuarios registrados.</td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+    </section>
+</main>
+
+<footer th:replace="~{fragments/footer :: footer}"></footer>
+
+</body>
+</html>

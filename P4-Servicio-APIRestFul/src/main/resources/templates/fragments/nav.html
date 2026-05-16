@@ -1,0 +1,68 @@
+<nav th:fragment="nav"
+     class="main-nav"
+     xmlns:th="http://www.thymeleaf.org"
+     xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+
+    <div class="main-nav__container">
+
+        <a th:href="@{/}"
+           th:classappend="${paginaActiva == 'dashboard'} ? ' main-nav__link--active' : ''"
+           class="main-nav__link">
+            Inicio
+        </a>
+
+        <!-- ADMIN: puede gestionar clientes -->
+        <a sec:authorize="hasRole('ADMIN')"
+           th:href="@{/admin/clientes}"
+           th:classappend="${paginaActiva == 'clientes'} ? ' main-nav__link--active' : ''"
+           class="main-nav__link">
+            Clientes
+        </a>
+
+        <!-- ADMIN: puede gestionar vehículos -->
+        <a sec:authorize="hasRole('ADMIN')"
+           th:href="@{/admin/vehiculos}"
+           th:classappend="${paginaActiva == 'vehiculos'} ? ' main-nav__link--active' : ''"
+           class="main-nav__link">
+            Vehículos
+        </a>
+
+        <!-- ADMIN y USER: pueden ver/interactuar con alquileres -->
+        <a sec:authorize="hasRole('ADMIN')"
+           th:href="@{/admin/alquileres}"
+           th:classappend="${paginaActiva == 'alquileres'} ? ' main-nav__link--active' : ''"
+           class="main-nav__link">
+            Alquileres
+        </a>
+
+        <a sec:authorize="hasRole('USER')"
+           th:href="@{/user/alquileres}"
+           th:classappend="${paginaActiva == 'alquileres'} ? ' main-nav__link--active' : ''"
+           class="main-nav__link">
+            Alquileres
+        </a>
+
+        <a sec:authorize="hasRole('ADMIN')"
+           th:href="@{/admin/usuarios}"
+           th:classappend="${paginaActiva == 'usuarios'} ? ' main-nav__link--active' : ''"
+           class="main-nav__link">
+            Usuarios
+        </a>
+
+        <!-- Usuario no autenticado -->
+        <a sec:authorize="isAnonymous()"
+           th:href="@{/login}"
+           th:classappend="${paginaActiva == 'login'} ? ' main-nav__link--active' : ''"
+           class="main-nav__link">
+            Iniciar sesión
+        </a>
+
+        <a sec:authorize="isAnonymous()"
+           th:href="@{/registro}"
+           th:classappend="${paginaActiva == 'registro'} ? ' main-nav__link--active' : ''"
+           class="main-nav__link">
+            Registro
+        </a>
+
+    </div>
+</nav>

@@ -1,0 +1,38 @@
+<header th:fragment="header"
+        class="topbar"
+        xmlns:th="http://www.thymeleaf.org"
+        xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+
+    <div class="topbar__container">
+        <div class="topbar__brand">
+            <a th:href="@{/}" class="brand-link">AlquilerVehiculos</a>
+        </div>
+
+        <div class="topbar__right">
+
+            <!-- Usuario autenticado -->
+            <div sec:authorize="isAuthenticated()" class="topbar__user">
+                <span class="topbar__user-icon">●</span>
+                <span sec:authentication="name">Usuario</span>
+            </div>
+
+            <!-- Cerrar sesión -->
+            <form sec:authorize="isAuthenticated()"
+                  th:action="@{/logout}"
+                  method="post"
+                  class="inline-form">
+                <button type="submit" class="btn btn--outline btn--small">
+                    Cerrar sesión
+                </button>
+            </form>
+
+            <!-- Acceso para usuarios no autenticados -->
+            <a sec:authorize="isAnonymous()"
+               th:href="@{/login}"
+               class="btn btn--outline btn--small">
+                Iniciar sesión
+            </a>
+
+        </div>
+    </div>
+</header>
