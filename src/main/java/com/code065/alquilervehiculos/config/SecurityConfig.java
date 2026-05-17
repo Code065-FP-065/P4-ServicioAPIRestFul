@@ -85,7 +85,6 @@ public class SecurityConfig {
      * - Devuelve 403 si hay autenticación, pero no permisos suficientes.
      *
      * @param http configuración HTTP de Spring Security.
-     * @return cadena de seguridad para la API REST.
      * @throws Exception si se produce un error de configuración.
      */
     @Bean
